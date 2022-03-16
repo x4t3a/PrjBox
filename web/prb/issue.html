@@ -1,0 +1,57 @@
+[[define "content"]]
+
+<p contenteditable="true" id="summary">
+    [[$.DBIssue.Summary]]
+</p>
+
+<form id="deleteIssueForm">
+    <input id="project-input" type="hidden" name="project" value="[[$.Project]]">
+    <input id="id-input" type="hidden" name="id" value="[[$.DBIssue.ID]]">
+    <button id="deleteIssue">Delete this issue</button>
+</form>
+
+<script>
+    var form = document.forms.namedItem("deleteIssueForm");
+    form.addEventListener('submit', function (ev) {
+        var oData = new FormData(form);
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "/api/v1/i/delete?multipart=true", true);
+        oReq.send(oData);
+        ev.preventDefault();
+    }, false);
+
+    var el = document.querySelector("#summary");
+    var currentSummaryText = el.textContent
+
+    el.addEventListener("blur", function (event) { // on un-focus
+        if (el.textContent !== currentSummaryText) {
+            el.textContent = currentSummaryText
+        }
+    });
+
+    el.addEventListener("keyup", function (event) {
+        if ((e.key === 'Enter') && (el.textContent !== currentSummaryText)) {
+            currentSummaryText = el.textContent
+        }
+
+        // + update into database
+    });
+
+    el.addEventListener("paste", function (event) {
+        console.log(event);
+    });
+    el.addEventListener("copy", function (event) {
+        console.log(event);
+    });
+    el.addEventListener("cut", function (event) {
+        console.log(event);
+    });
+    el.addEventListener("delete", function (event) {
+        console.log(event);
+    });
+    el.addEventListener("mouseup", function (event) {
+        console.log(event);
+    });
+</script>
+
+[[end]]

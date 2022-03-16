@@ -1,0 +1,12 @@
+[[define "content"]]
+
+<h1>[[.DBProject.Name]]</h1>
+<div>
+    <ul>
+        [[range $issue := .Issues]]
+        <li><a href="/prb/i/[[$.DBProject.Link]]-[[.ID]]">[[$issue.Summary]]</a></li>
+        [[end]]
+    </ul>
+</div>
+
+[[end]]

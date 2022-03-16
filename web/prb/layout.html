@@ -1,0 +1,95 @@
+[[define "layout"]]
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>[[.PageTitle]]</title>
+
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        ul.layout-hor-nav-bar {
+            /* Safari */
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            width: 100%;
+
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            border: 1px solid;
+            background-color: #333;
+        }
+
+        ul.layout-hor-nav-bar>li {
+            float: left;
+            border-right: 1px solid #bbb;
+            background-color: #111;
+        }
+
+        ul.layout-hor-nav-bar>li:last-child {
+            border-right: none;
+        }
+
+        ul.layout-hor-nav-bar>li>a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        ul.layout-hor-nav-bar>li>form>input {
+            padding: 14px 16px;
+            margin: 0;
+        }
+
+        /* Change the link color to #111 (black) on hover */
+        ul.layout-hor-nav-bar>li>a:hover {
+            background-color: #04AA6D;
+            ;
+        }
+
+        ul.layout-hor-nav-bar>li>a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #04AA6D;
+        }
+
+        #layout-content {
+            margin-top: 15px;
+            padding: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div #id="layout-announcement"></div>
+
+    <ul class="layout-hor-nav-bar">
+        <li><a href="/prb/p?select=my">Projects</a></li>
+        <li><a href="#">STUB 1</a></li>
+        <li><a href="#">STUB 2</a></li>
+        <li><a class="active" href="/prb/util/i/create">Create</a></li>
+        <li style="float:right"><a href="#">Manage</a></li>
+        <!-- <li style="float:right">
+            <form>
+                <input placeholder="Search">
+                </input>
+            </form>
+        </li> -->
+        <!-- <li style="float:right"><a href="#">🔍</a></li> -->
+    </ul>
+
+    <div id="layout-content">
+        [[template "content" .]]
+    </div>
+</body>
+
+</html>
+[[end]]

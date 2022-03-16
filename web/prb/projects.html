@@ -1,0 +1,11 @@
+[[define "content"]]
+
+<div>
+    <ul>
+        [[range .Projects]]
+        <li><a href="/prb/p/[[.Link]]">[[.Name]]</a><a href="/prb/p/manage/[[.Link]]">Manage [[.Name]]</a></li>
+        [[end]]
+    </ul>
+</div>
+
+[[end]]

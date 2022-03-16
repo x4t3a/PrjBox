@@ -1,0 +1,41 @@
+[[define "content"]]
+
+<h1>[[ .PageTitle ]]</h1>
+
+<form id="createIssueForm" action="/api/v1/i/create?multipart=true">
+    <p><label for="project-select">Choose project:</label>
+        <select id="project-select" name="project">
+            [[ range .Projects ]]
+            <option value="[[ .Link ]]">[[ .Link ]]</option>
+            [[ end ]]
+        </select>
+    <p><label for="summary-input">Summary:</label>
+        <input id="summary-input" type="text" name="summary" value="Summary">
+    <p><button type="submit">Create</button>
+</form>
+
+<div id="createStatus"></div>
+
+<script>
+    var form = document.forms.namedItem("createIssueForm");
+    form.addEventListener('submit', function (ev) {
+        var oOutput = document.querySelector("#createStatus"),
+            oData = new FormData(form);
+
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "/api/v1/i/create?multipart=true", true);
+        oReq.onload = function (oEvent) {
+            if (Math.floor(oReq.status / 100) == 2) {
+                const responseObj = JSON.parse(this.responseText)
+                oOutput.innerHTML = oOutput.innerHTML +
+                    '<p><a href="/prb/i/' + responseObj.project + '-' + responseObj.id +
+                    '">' + responseObj.summary + '</a></p>';
+            }
+        };
+
+        oReq.send(oData);
+        ev.preventDefault();
+    }, false);
+</script>
+
+[[end]]

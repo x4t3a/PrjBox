@@ -1,0 +1,35 @@
+[[define "content"]]
+
+<h1>[[ .PageTitle ]]</h1>
+
+<form id="createProjectForm" action="/api/v1/p/create?multipart=true" method="post" enctype="multipart/form-data">
+    <p><input type="text" name="name" value="Project Name">
+    <p><input type="text" name="link" value="Project short link">
+    <p><button type="submit">Create</button>
+</form>
+
+<div id="createStatus"></div>
+
+<script>
+    var form = document.forms.namedItem("createProjectForm");
+    form.addEventListener('submit', function (ev) {
+        var oOutput = document.querySelector("#createStatus"),
+            oData = new FormData(form);
+
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "/api/v1/p/create?multipart=true", true);
+        oReq.onload = function (oEvent) {
+            if (oReq.status == 202) {
+                oOutput.innerHTML = oOutput.innerHTML +
+                    '<p><a href="/prb/p/' + oData.get("link") + '">' + oData.get("name") + '</a></p>';
+            } else {
+                oOutput.innerHTML = "Error " + oReq.status + " occurred when trying to upload your file.<br \/>";
+            }
+        };
+
+        oReq.send(oData);
+        ev.preventDefault();
+    }, false);
+</script>
+
+[[end]]

@@ -1,0 +1,21 @@
+[[define "content"]]
+
+<h1>[[ .PageTitle ]]</h1>
+
+<form id="deleteProjectForm">
+    <input id="project-link" type="hidden" name="link" value="[[$.Link]]">
+    <button id="deleteIssue">Delete this project</button>
+</form>
+
+<script>
+    var form = document.forms.namedItem("deleteProjectForm");
+    form.addEventListener('submit', function (ev) {
+        var oData = new FormData(form);
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "/api/v1/p/delete?multipart=true", true);
+        oReq.send(oData);
+        ev.preventDefault();
+    }, false);
+</script>
+
+[[end]]
