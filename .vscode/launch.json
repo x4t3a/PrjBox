@@ -15,7 +15,7 @@
         "--base-path",
         "${workspaceRoot}",
         "--mono-interface",
-        ":8080"
+        "localhost:8080"
       ]
     },
     {
@@ -31,7 +31,7 @@
         "--mode",
         "api",
         "--api-interface",
-        ":7070"
+        "localhost:7070"
       ]
     },
     {
@@ -47,9 +47,9 @@
         "--mode",
         "web",
         "--web-interface",
-        ":8080",
+        "localhost:8080",
         "--api-interface",
-        ":7070"
+        "localhost:7070"
       ]
     }
   ],

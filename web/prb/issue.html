@@ -10,12 +10,16 @@
     <button id="deleteIssue">Delete this issue</button>
 </form>
 
+[[range $key, $value := $.DBIssue.Fields]]
+    <li>[[$key]]:[[$value]]</li>
+[[end]]
+
 <script>
     var form = document.forms.namedItem("deleteIssueForm");
     form.addEventListener('submit', function (ev) {
         var oData = new FormData(form);
         var oReq = new XMLHttpRequest();
-        oReq.open("POST", "/api/v1/i/delete?multipart=true", true);
+        oReq.open("POST", "http://[[$.API]]/api/v1/i/delete?multipart=true", true);
         oReq.send(oData);
         ev.preventDefault();
     }, false);

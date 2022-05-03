@@ -51,18 +51,22 @@ func (h *WebIssueHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var issue dbIssue
+	if err = json.NewDecoder(resp.Body).Decode(&issue); err != nil {
+		Custom404Page(h.AutoRegistereesShared, w, "/prb/p", "projects")
+		return
+	}
+
 	data := struct {
 		types.WebPageBaseHandlerData
 		Project string
 		DBIssue dbIssue
+		API     string
 	}{
-		WebPageBaseHandlerData: types.WebPageBaseHandlerData{PageTitle: project},
+		WebPageBaseHandlerData: types.WebPageBaseHandlerData{PageTitle: fmt.Sprintf("%s-%s: %s", strings.ToUpper(project), id, issue.Summary)},
 		Project:                project,
-	}
-
-	if err = json.NewDecoder(resp.Body).Decode(&data.DBIssue); err != nil {
-		Custom404Page(h.AutoRegistereesShared, w, "/prb/p", "projects")
-		return
+		DBIssue:                issue,
+		API:                    h.APIInterface,
 	}
 
 	tmpl, err := template.New("layout").Delims("[[", "]]").ParseFiles(

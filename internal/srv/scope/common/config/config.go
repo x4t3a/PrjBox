@@ -50,9 +50,9 @@ func NewPRBConfig() (config PRBConfig) {
 	basePath := flag.String(basePathName, "", "")
 	mode := flag.String(modeName, "mono", "mono, api, web")
 
-	webInterface := flag.String(webInterfaceName, ":8080", "")
-	apiInterface := flag.String(apiInterfaceName, ":7070", "")
-	monoInterface := flag.String(monoInterfaceName, ":8080", "")
+	webInterface := flag.String(webInterfaceName, "localhost:8080", "")
+	apiInterface := flag.String(apiInterfaceName, "localhost:7070", "")
+	monoInterface := flag.String(monoInterfaceName, "localhost:8080", "")
 
 	flag.Parse()
 
