@@ -2,12 +2,11 @@ package apiv1
 
 import (
 	"net/http"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	"prb/internal/srv/scope/common/stub"
+	aur "prb/internal/srv/common/auto_registerer"
+	"prb/internal/srv/common/stub"
 )
 
-
-type APIV1ProjectArchiveHandler struct{
+type APIV1ProjectArchiveHandler struct {
 	*aur.AutoRegistereesShared
 }
 

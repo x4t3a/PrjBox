@@ -5,10 +5,10 @@ import (
 	"html/template"
 	"net/http"
 	"path"
-	"prb/internal/srv/scope/common/types"
+	"prb/internal/srv/common/types"
 	"strings"
 
-	aur "prb/internal/srv/scope/common/auto_registerer"
+	aur "prb/internal/srv/common/auto_registerer"
 
 	"github.com/gorilla/mux"
 )

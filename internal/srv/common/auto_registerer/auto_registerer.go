@@ -1,7 +1,7 @@
 package autoregisterer
 
 import (
-	c "prb/internal/srv/scope/common/config"
+	c "prb/internal/srv/common/config"
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"

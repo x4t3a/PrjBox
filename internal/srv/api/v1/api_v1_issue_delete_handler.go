@@ -6,32 +6,31 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"prb/internal/srv/scope/api/v1/fields"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	"prb/internal/srv/scope/common/stub"
-	"prb/internal/srv/scope/common/types"
+	aur "prb/internal/srv/common/auto_registerer"
+	"prb/internal/srv/common/stub"
+	"strconv"
 )
 
-type APIV1IssueCreateHandler struct {
+type APIV1IssueDeleteHandler struct {
 	*aur.AutoRegistereesShared
 }
 
-func NewAPIV1IssueCreateHandler(sh *aur.AutoRegistereesShared) *APIV1IssueCreateHandler {
-	return &APIV1IssueCreateHandler{
+func NewAPIV1IssueDeleteHandler(sh *aur.AutoRegistereesShared) *APIV1IssueDeleteHandler {
+	return &APIV1IssueDeleteHandler{
 		AutoRegistereesShared: sh,
 	}
 }
 
-func (h *APIV1IssueCreateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	type apiIssueCreateRequest struct {
+func (h *APIV1IssueDeleteHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	type apiIssueDeleteRequest struct {
 		Project string `db:"project" json:"project"`
-		types.DBIssue
+		ID      int64  `db:"id"      json:"id"`
 	}
 
 	if stub.UserHasRights() {
 		switch r.Method {
 		case "POST", "PUT":
-			var req apiIssueCreateRequest
+			var req apiIssueDeleteRequest
 			if _, ok := r.URL.Query()["multipart"]; ok {
 				err := r.ParseMultipartForm(1024)
 				if err != nil {
@@ -40,7 +39,9 @@ func (h *APIV1IssueCreateHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 				}
 				// mp.Decode(req, "json", r) // TODO
 				req.Project = r.FormValue("project")
-				req.Summary = r.FormValue("summary")
+				if id, err := strconv.Atoi(r.FormValue("id")); err == nil {
+					req.ID = int64(id)
+				}
 			} else {
 				decoder := json.NewDecoder(r.Body)
 				err := decoder.Decode(&req)
@@ -59,14 +60,6 @@ func (h *APIV1IssueCreateHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 				return
 			}
 
-			reply := struct {
-				Project string `json:"project"`
-				ID      int64  `json:"id"`
-				Summary string `json:"summary"`
-			}{
-				Project: req.Project,
-			}
-
 			defer func() {
 				if err == nil {
 					err = tx.Commit()
@@ -75,29 +68,16 @@ func (h *APIV1IssueCreateHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 				}
 
 				if err == nil {
-					w.Header().Set("Content-Type", "application/json")
 					w.WriteHeader(http.StatusAccepted)
-					json.NewEncoder(w).Encode(reply)
 				} else {
 					w.WriteHeader(http.StatusInternalServerError)
 				}
 			}()
-
-			fields := fields.NewFieldsAuto()
-
-			rows, err := tx.Query(fmt.Sprintf("INSERT INTO %s.issues(summary, fields) VALUES($1, $2) RETURNING id, summary", req.Project), req.Summary, fields)
+			_, err = tx.Exec(fmt.Sprintf("DELETE FROM %s.issues WHERE id = $1", req.Project), req.ID)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-
-			for rows.Next() {
-				err = rows.Scan(&reply.ID, &reply.Summary)
-			}
-		default:
-			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
-	} else {
-		w.WriteHeader(http.StatusUnauthorized)
 	}
 }

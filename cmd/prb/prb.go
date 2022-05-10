@@ -3,10 +3,10 @@ package main
 import (
 	"log"
 	"net/http"
-	apiv1 "prb/internal/srv/scope/api/v1"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	c "prb/internal/srv/scope/common/config"
-	"prb/internal/srv/scope/web"
+	apiv1 "prb/internal/srv/api/v1"
+	aur "prb/internal/srv/common/auto_registerer"
+	c "prb/internal/srv/common/config"
+	"prb/internal/srv/web"
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"

@@ -4,8 +4,8 @@ import (
 	"html/template"
 	"net/http"
 	"path"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	"prb/internal/srv/scope/common/types"
+	aur "prb/internal/srv/common/auto_registerer"
+	"prb/internal/srv/common/types"
 
 	"github.com/gorilla/mux"
 )

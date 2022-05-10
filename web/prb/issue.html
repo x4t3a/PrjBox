@@ -1,18 +1,25 @@
 [[define "content"]]
 
-<p contenteditable="true" id="summary">
-    [[$.DBIssue.Summary]]
+<p>
+    <button id="issue-field-status">
+        [[index $.FieldsStr "status"]]
+    </button>
+    <div contenteditable="true" id="issue-field-summary">
+        [[$.DBIssue.Summary]]
+    </div>
 </p>
+
+<div>
+    <li>
+        created at [[index $.FieldsStr "created_at"]]
+    </li>
+</div>
 
 <form id="deleteIssueForm">
     <input id="project-input" type="hidden" name="project" value="[[$.Project]]">
     <input id="id-input" type="hidden" name="id" value="[[$.DBIssue.ID]]">
     <button id="deleteIssue">Delete this issue</button>
 </form>
-
-[[range $key, $value := $.DBIssue.Fields]]
-    <li>[[$key]]:[[$value]]</li>
-[[end]]
 
 <script>
     var form = document.forms.namedItem("deleteIssueForm");
@@ -24,7 +31,7 @@
         ev.preventDefault();
     }, false);
 
-    var el = document.querySelector("#summary");
+    var el = document.querySelector("#issue-field-summary");
     var currentSummaryText = el.textContent
 
     el.addEventListener("blur", function (event) { // on un-focus

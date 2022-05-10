@@ -2,7 +2,7 @@ package apiv1
 
 import (
 	"net/http"
-	aur "prb/internal/srv/scope/common/auto_registerer"
+	aur "prb/internal/srv/common/auto_registerer"
 )
 
 type APIV1IssueModifyHandler struct {

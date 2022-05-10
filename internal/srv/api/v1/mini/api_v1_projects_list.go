@@ -3,15 +3,15 @@ package apiv1mini
 import (
 	"encoding/json"
 	"net/http"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	"prb/internal/srv/scope/common/types"
+	aur "prb/internal/srv/common/auto_registerer"
+	"prb/internal/srv/common/types"
 )
 
 type APIV1MiniProjectsListHandler struct {
 	*aur.AutoRegistereesShared
 }
 
-func NewAPIV1IssueCreateHandler(sh *aur.AutoRegistereesShared) *APIV1MiniProjectsListHandler {
+func NewAPIV1MiniProjectsListHandler(sh *aur.AutoRegistereesShared) *APIV1MiniProjectsListHandler {
 	return &APIV1MiniProjectsListHandler{
 		AutoRegistereesShared: sh,
 	}

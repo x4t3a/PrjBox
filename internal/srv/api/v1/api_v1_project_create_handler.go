@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	"prb/internal/srv/scope/common/db"
-	"prb/internal/srv/scope/common/stub"
-	"prb/internal/srv/scope/common/types"
+	aur "prb/internal/srv/common/auto_registerer"
+	"prb/internal/srv/common/db"
+	"prb/internal/srv/common/stub"
+	"prb/internal/srv/common/types"
 	"strings"
 )
 

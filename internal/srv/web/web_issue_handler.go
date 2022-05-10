@@ -8,9 +8,9 @@ import (
 	"path"
 	"strings"
 
-	"prb/internal/srv/scope/api/v1/fields"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	"prb/internal/srv/scope/common/types"
+	"prb/internal/srv/api/v1/fields"
+	aur "prb/internal/srv/common/auto_registerer"
+	"prb/internal/srv/common/types"
 
 	"github.com/gorilla/mux"
 )
@@ -59,19 +59,23 @@ func (h *WebIssueHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		types.WebPageBaseHandlerData
-		Project string
-		DBIssue dbIssue
-		API     string
+		Project   string
+		DBIssue   dbIssue
+		FieldsStr fields.FieldsStr
+		API       string
 	}{
 		WebPageBaseHandlerData: types.WebPageBaseHandlerData{PageTitle: fmt.Sprintf("%s-%s: %s", strings.ToUpper(project), id, issue.Summary)},
 		Project:                project,
 		DBIssue:                issue,
+		FieldsStr:              issue.Fields.Transform(),
 		API:                    h.APIInterface,
 	}
 
-	tmpl, err := template.New("layout").Delims("[[", "]]").ParseFiles(
-		path.Join(h.BasePath, "/web/prb/layout.html"),
-		path.Join(h.BasePath, "/web/prb/issue.html"))
+	tmpl, err := template.New("layout").
+		Delims("[[", "]]").
+		ParseFiles(
+			path.Join(h.BasePath, "/web/prb/layout.html"),
+			path.Join(h.BasePath, "/web/prb/issue.html"))
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

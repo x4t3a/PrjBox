@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	aur "prb/internal/srv/scope/common/auto_registerer"
+	aur "prb/internal/srv/common/auto_registerer"
 
 	"github.com/gorilla/mux"
 )
 
-
-type WebSprintHandler struct{
+type WebSprintHandler struct {
 	*aur.AutoRegistereesShared
 }
 

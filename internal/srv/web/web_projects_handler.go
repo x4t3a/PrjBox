@@ -4,9 +4,9 @@ import (
 	"html/template"
 	"net/http"
 	"path"
-	"prb/internal/srv/scope/common/types"
+	"prb/internal/srv/common/types"
 
-	aur "prb/internal/srv/scope/common/auto_registerer"
+	aur "prb/internal/srv/common/auto_registerer"
 )
 
 type WebProjectsHandler struct {

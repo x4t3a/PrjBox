@@ -3,8 +3,8 @@ package web
 import (
 	"net/http"
 	"path"
-	aur "prb/internal/srv/scope/common/auto_registerer"
-	"prb/internal/srv/scope/common/routes"
+	aur "prb/internal/srv/common/auto_registerer"
+	"prb/internal/srv/common/routes"
 )
 
 type WebAutoRegisteree struct {
